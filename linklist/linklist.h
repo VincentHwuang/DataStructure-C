@@ -26,19 +26,20 @@ void   Fatal(char *);					//A function to print fatal error message
 void  *ECMalloc(unsigned int);				//A error-checked version malloc function
 Status CheckLocationIndex(LinkList*,int);		//A function to check the location index whether it is valid
 Status CheckAddresses(unsigned long long int);		//A function to check addresses whether it is valid
-LinkList* CreateLinkList(void);                    //Create a linklist
-Status NodeInsertBeforeFirst(LinkList*,ElementType);	//Insert the data before the first node
+LinkList* CreateLinkList(void);                    	//Create a linklist
+Status NodeInsertBeforeFirst(LinkList*,ElementType);	//Insert the data before the first node,technically,this function is redundant because we also have the function 'NodeInsertBefore'
 Status NodeInsertBefore(LinkList*,int,ElementType);     //Insert the data appointed by the third parameter before the location appointed by th second parameter into the linklist 
 Status ClearLinkList(LinkList*);			//A function to clear the linklist
+Node *GetNode(LinkList*,int);				//A function to return a node located at a specified location indicated by the second argument
+ElementType GetElement(LinkList*, int);       		//A function to return a data located at a specified location indicated by the second argument
 
-Status GetElement(LinkList*, int, ElementType*);       //if the data that appointed by the second parameter are existed,
+BOOL   JudgeEmpty(LinkList*);			        //A function to examine if the linklist is empty
+                                                        //return it by the third parameter,and return OK,otherwise return ERROR
 
-BOOL   JudgeEmpty(LinkList*);			       //A function to examine if the linklist is empty
-                                                       //return it by the third parameter,and return OK,otherwise return ERROR
-
-Status NodeDelete(LinkList*, int, ElementType*);   //Delete the data which location are appointed by the second parameter
+ElementType DeleteNode(LinkList*, int);   		//A function to delete the data located at a specified location indicated by the second argument and return the deleted data value
                                                        //and return it by the third parameter
 Status MergeLinkList(LinkList*, LinkList*, LinkList*); //Merge the first linklist and the second linklist to the third linklist
+
 
 
 

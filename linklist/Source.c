@@ -14,18 +14,37 @@ int main(void)
 	//Test for function 'NodeInsertBefore'
 	int ListLength=pLinkList->Length;
 	NodeInsertBefore(pLinkList,ListLength,11);
+	NodeInsertBefore(pLinkList,1,5);
+	NodeInsertBefore(pLinkList,2,6);
 	PrintLinkList(pLinkList);
 	//Test for function 'JudgeEmpty'
-	BOOL flag;
-	flag=JudgeEmpty(pLinkList);
-	if(flag == TRUE)
-	{
-		printf("The linklist is empty.\n");
-	}
-	else
-	{
-		printf("The linklist is not empty.\n");
-	}
+	//BOOL flag;
+	//flag=JudgeEmpty(pLinkList);
+	//if(flag == TRUE)
+	//{
+	//	printf("The linklist is empty.\n");
+	//}
+	//else
+	//{
+	//	printf("The linklist is not empty.\n");
+	//}
+	//Test for function 'ClearLinkList'
+	//if(ClearLinkList(pLinkList) == OK)
+	//{
+	//	;
+	//}
+	//if(JudgeEmpty(pLinkList) == TRUE)
+	//{
+	//	printf("The linklist is empty.\nThe Length is:%d\n",pLinkList->Length);
+	//}
+	//else
+	//{
+	//	printf("Something error happened!\n");
+	//}
+	//Test for function 'GetElement'
+	//ElementType DataReturned;
+	//DataReturned=GetElement(pLinkList,5);
+	//printf("The returned data is:%d\n",DataReturned);
 
 	return 0;	
 

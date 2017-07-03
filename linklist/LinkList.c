@@ -5,7 +5,7 @@ Status CheckAddresses(unsigned long long int ValueChecked)
 	if(ValueChecked == 0)	//For 64-bits --> 8 bytes
 	{
 		Fatal("There is an invalid address value!");
-		return OVERFLOW;
+		exit(OVERFLOW);
 	}
 
 	return OK;
@@ -34,9 +34,14 @@ void *ECMalloc(unsigned int size)
 Status CheckLocationIndex(LinkList* pLinkList,int Index)
 {
 	if(Index <= 0 || (Index > pLinkList->Length))
+	{
+		Fatal("The location index is invalid!");
 		exit(INDEX_EXCEED);
+	}
 	else
+	{
 		return OK;
+	}
 }
 
 LinkList* CreateLinkList(void)
@@ -115,7 +120,7 @@ Status ClearLinkList(LinkList* pLinkList)
 		return OK;
 	}
 	Node *pTemporary0=pLinkList->pFirstNode;
-	Node *pTemporary1=pTemporaray0->pNext;
+	Node *pTemporary1;
 	int Counter;
 	int LinkListLength;
 	
@@ -123,32 +128,48 @@ Status ClearLinkList(LinkList* pLinkList)
 
 	for(Counter=0;Counter<LinkListLength;Counter++)
 	{
-		pTemporary=pTemporary->pNext;
-		free(
+		pTemporary1=pTemporary0->pNext;
+		CheckAddresses((unsigned long long int)pTemporary0);
+		free(pTemporary0);
+		pTemporary0=NULL;
+		pTemporary0=pTemporary1;
+		pLinkList->Length--;
 	}
-}
-/*
-Status GetElement(LinkList* pLinkList, int LocationIndex, ElementType* pBackCarrier)
-{
-	Node* pFirstNode = pLinkList->pFirstNode;
-	int Count = 1;
-	while (pFirstNode&&Count < LocationIndex)
-	{
-		pFirstNode = pFirstNode->pNext;
-		Count++;
-	}
-	if (!pFirstNode)
-		return ERROR;
-	*pBackCarrier = pFirstNode->Data;
 
 	return OK;
 }
-/*
-Status NodeDelete(LinkList* pLinkList, int LocationIndex, ElementType* pBackCarrier)
+
+Node *GetNode(LinkList *pLinkList, int LocationIndex)
 {
+	CheckAddresses((unsigned long long int)pLinkList);
+	CheckLocationIndex(pLinkList,LocationIndex);
+	Node *pNode=pLinkList->pFirstNode;
+	int Counter=1;
+	while((pNode != NULL) && (Counter < LocationIndex))
+	{
+		pNode = pNode->pNext;
+		Counter++;	
+	}
+	CheckAddresses((unsigned long long int)pNode);
+
+	return pNode;
+}
+
+ElementType GetElement(LinkList* pLinkList, int LocationIndex)
+{
+	Node *pNode;
+	pNode=GetNode(pLinkList,LocationIndex);
+
+	return (pNode->Data);
+}
+/*
+ElementType DeleteNode(LinkList* pLinkList, int LocationIndex)
+{
+	CheckAddresses((unsigned long long int)pLinkList);
+	CheckLocationIndex(pLinkList,LocationIndex);
 	Node* pFirstNode = pLinkList->pFirstNode;
 	int Count = 1;
-	if (LocationIndex == 1)
+	if (LocationIndex == 1
 	{
 		*pBackCarrier = pFirstNode->Data;
 		pLinkList->pFirstNode = pFirstNode->pNext;
