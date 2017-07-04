@@ -45,6 +45,21 @@ int main(void)
 	//ElementType DataReturned;
 	//DataReturned=GetElement(pLinkList,5);
 	//printf("The returned data is:%d\n",DataReturned);
+	//Test for function 'GetNode'
+//	Node *Node0;
+//	Node *Node1;
+////	int  TheLast=pLinkList->Length;
+//	Node0=GetNode(pLinkList,1);
+////	Node1=GetNode(pLinkList,TheLast);	
+//	Node1=GetNode(pLinkList,2);
+//	printf("Node0: 0x%016x ---> Data: %d pNext: 0x%016x\nNode1: 0x%016x ---> Data: %d pNext: 0x%016x\n",(unsigned long long int)Node0,Node0->Data,(unsigned long long int)Node0->pNext,(unsigned long long int)Node1,Node1->Data,(unsigned long long int)Node1->pNext);
+	//Test for function 'GetElement'
+	ElementType Data0;
+	ElementType Data1;
+	Data0=GetElement(pLinkList,1);
+	Data1=GetElement(pLinkList,3);
+	printf("Data0: %d\nData1: %d\n",Data0,Data1);
+	
 
 	return 0;	
 
@@ -54,7 +69,7 @@ void PrintLinkList(LinkList* pLinkList)
 {
 	CheckAddresses((unsigned long long int)pLinkList);
 	Node* pFirstNode = pLinkList->pFirstNode;
-	printf("[DEBUG INFO]: The address of the linklist is 0x%016x\nThe length of the linklist is:%d\n",pLinkList,pLinkList->Length);
+	printf("[DEBUG INFO]: The address of the linklist is 0x%016x\nThe length of the linklist is:%d\n",(unsigned long long int)pLinkList,pLinkList->Length);
 	while (pFirstNode)
 	{
 		printf("%d\n", pFirstNode->Data);

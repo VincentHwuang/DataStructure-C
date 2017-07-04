@@ -5,10 +5,11 @@ typedef struct Node Node;
 typedef int ElementType;
 typedef struct LinkList LinkList;
 
-#include"myheader.h"
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include"error.h"
+#include"myheader.h"
 
 struct Node
 {
@@ -22,10 +23,7 @@ struct LinkList
 	struct Node* pFirstNode;
 };
 
-void   Fatal(char *);					//A function to print fatal error message
-void  *ECMalloc(unsigned int);				//A error-checked version malloc function
 Status CheckLocationIndex(LinkList*,int);		//A function to check the location index whether it is valid
-Status CheckAddresses(unsigned long long int);		//A function to check addresses whether it is valid
 LinkList* CreateLinkList(void);                    	//Create a linklist
 Status NodeInsertBeforeFirst(LinkList*,ElementType);	//Insert the data before the first node,technically,this function is redundant because we also have the function 'NodeInsertBefore'
 Status NodeInsertBefore(LinkList*,int,ElementType);     //Insert the data appointed by the third parameter before the location appointed by th second parameter into the linklist 
@@ -36,7 +34,7 @@ ElementType GetElement(LinkList*, int);       		//A function to return a data lo
 BOOL   JudgeEmpty(LinkList*);			        //A function to examine if the linklist is empty
                                                         //return it by the third parameter,and return OK,otherwise return ERROR
 
-ElementType DeleteNode(LinkList*, int);   		//A function to delete the data located at a specified location indicated by the second argument and return the deleted data value
+Node *DeleteNode(LinkList*, int);   		//A function to delete the data located at a specified location indicated by the second argument and return the deleted data value,and return the deleted node
                                                        //and return it by the third parameter
 Status MergeLinkList(LinkList*, LinkList*, LinkList*); //Merge the first linklist and the second linklist to the third linklist
 

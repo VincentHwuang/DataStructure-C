@@ -1,36 +1,5 @@
 #include"linklist.h"
 
-Status CheckAddresses(unsigned long long int ValueChecked)
-{
-	if(ValueChecked == 0)	//For 64-bits --> 8 bytes
-	{
-		Fatal("There is an invalid address value!");
-		exit(OVERFLOW);
-	}
-
-	return OK;
-}
-void Fatal(char *ErrorMessage)
-{
-	char Message[100];
-	strcpy(Message,"[!!]Fatal Error: ");
-	strncat(Message,ErrorMessage,strlen(ErrorMessage));
-	perror(Message);
-}
-
-void *ECMalloc(unsigned int size)
-{
-	void *Pointer;
-	Pointer=malloc(size);
-	if(Pointer == NULL)
-	{
-		Fatal("Failed to allocate memory!\n");
-		exit(OVERFLOW);
-	}
-
-	return Pointer;
-}
-
 Status CheckLocationIndex(LinkList* pLinkList,int Index)
 {
 	if(Index <= 0 || (Index > pLinkList->Length))
@@ -163,36 +132,27 @@ ElementType GetElement(LinkList* pLinkList, int LocationIndex)
 	return (pNode->Data);
 }
 /*
-ElementType DeleteNode(LinkList* pLinkList, int LocationIndex)
+Node *DeleteNode(LinkList* pLinkList, int LocationIndex)
 {
 	CheckAddresses((unsigned long long int)pLinkList);
 	CheckLocationIndex(pLinkList,LocationIndex);
-	Node* pFirstNode = pLinkList->pFirstNode;
-	int Count = 1;
-	if (LocationIndex == 1
-	{
-		*pBackCarrier = pFirstNode->Data;
-		pLinkList->pFirstNode = pFirstNode->pNext;
-		pLinkList->Length--;
-	}
-	else
-	{
-		while (pFirstNode&&Count < LocationIndex - 1)
-		{
-			pFirstNode = pFirstNode->pNext;
-			Count++;
-		}
-		if (!pFirstNode)
-			return ERROR;
 
-		Node* pTemporary = (Node*)malloc(sizeof(Node));
-		if (!pTemporary)
-			exit(OVERFLOW);
-		pTemporary = pFirstNode->pNext;
-		*pBackCarrier = pTemporary->Data;
-		pFirstNode->pNext = pTemporary->pNext;
-		pLinkList->Length--;
+	Node* pCurrentNode = pLinkList->pFirstNode;
+	int Count = 1;
+	while (pFirstNode&&Count < LocationIndex - 1)
+	{
+		pFirstNode = pFirstNode->pNext;
+		Count++;
 	}
+
+	Node* pTemporary = (Node*)malloc(sizeof(Node));
+	if (!pTemporary)
+		exit(OVERFLOW);
+	pTemporary = pFirstNode->pNext;
+	*pBackCarrier = pTemporary->Data;
+	pFirstNode->pNext = pTemporary->pNext;
+	pLinkList->Length--;
+}
 
 	return OK;
 }
