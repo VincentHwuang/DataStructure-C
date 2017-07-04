@@ -1,22 +1,23 @@
 #include"linklist.h"
 
-void PrintLinkList(LinkList*);
+void PrintLinkListInfo(LinkList*);
+void PrintNodeInfo(Node*);
 
 int main(void)
 {
 	LinkList *pLinkList;
 	//Test for function 'CreateLinkList'
 	pLinkList=CreateLinkList();
-	PrintLinkList(pLinkList);
+	PrintLinkListInfo(pLinkList);
 	//Test for function 'NodeInsertBeforeFirst'
 	NodeInsertBeforeFirst(pLinkList,10);
-	PrintLinkList(pLinkList);
+	PrintLinkListInfo(pLinkList);
 	//Test for function 'NodeInsertBefore'
 	int ListLength=pLinkList->Length;
 	NodeInsertBefore(pLinkList,ListLength,11);
 	NodeInsertBefore(pLinkList,1,5);
 	NodeInsertBefore(pLinkList,2,6);
-	PrintLinkList(pLinkList);
+	PrintLinkListInfo(pLinkList);
 	//Test for function 'JudgeEmpty'
 	//BOOL flag;
 	//flag=JudgeEmpty(pLinkList);
@@ -52,29 +53,50 @@ int main(void)
 //	Node0=GetNode(pLinkList,1);
 ////	Node1=GetNode(pLinkList,TheLast);	
 //	Node1=GetNode(pLinkList,2);
-//	printf("Node0: 0x%016x ---> Data: %d pNext: 0x%016x\nNode1: 0x%016x ---> Data: %d pNext: 0x%016x\n",(unsigned long long int)Node0,Node0->Data,(unsigned long long int)Node0->pNext,(unsigned long long int)Node1,Node1->Data,(unsigned long long int)Node1->pNext);
+//	PrintNodeInfo(Node0);
+//	PrintNodeInfo(Node1);
 	//Test for function 'GetElement'
 	ElementType Data0;
 	ElementType Data1;
 	Data0=GetElement(pLinkList,1);
 	Data1=GetElement(pLinkList,3);
 	printf("Data0: %d\nData1: %d\n",Data0,Data1);
+	//Test for function 'DeleteFirstNode'
+	Node *pNodeDeleted;
+	pNodeDeleted=DeleteFirstNode(pLinkList);
+	PrintNodeInfo(pNodeDeleted);
+	//[!!!]Pay attention that we must manully free memory of the deleted node
+	//otherwise it will cause memory leak!!!
+	free(pNodeDeleted);
+	pNodeDeleted=NULL;
+	pNodeDeleted=DeleteFirstNode(pLinkList);
+	PrintNodeInfo(pNodeDeleted);
+	free(pNodeDeleted);
+	pNodeDeleted=NULL;
+	PrintLinkListInfo(pLinkList);
 	
 
 	return 0;	
 
 }
 
-void PrintLinkList(LinkList* pLinkList)
+void PrintLinkListInfo(LinkList* pLinkList)
 {
 	CheckAddresses((unsigned long long int)pLinkList);
 	Node* pFirstNode = pLinkList->pFirstNode;
-	printf("[DEBUG INFO]: The address of the linklist is 0x%016x\nThe length of the linklist is:%d\n",(unsigned long long int)pLinkList,pLinkList->Length);
+	printf("[DEBUG LINKLIST INFO]: The address of the linklist is 0x%016x\nThe length of the linklist is:%d\n",pLinkList,pLinkList->Length);
 	while (pFirstNode)
 	{
 		printf("%d\n", pFirstNode->Data);
 		pFirstNode = pFirstNode->pNext;
 	}
 	printf("\n");
+	return;
+}
+
+void PrintNodeInfo(Node *pNode)
+{
+	printf("[DEBUG NODE INFO]: address: 0x%016x\nThe data of it: %d\npNext address: 0x%016x\n",pNode,pNode->Data,pNode->pNext);
+
 	return;
 }

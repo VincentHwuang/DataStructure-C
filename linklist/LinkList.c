@@ -131,32 +131,49 @@ ElementType GetElement(LinkList* pLinkList, int LocationIndex)
 
 	return (pNode->Data);
 }
-/*
+
+Node *DeleteFirstNode(LinkList *pLinkList)
+{
+	CheckAddresses((unsigned long long int)pLinkList);
+
+	Node *pFirstNode;
+
+	pFirstNode=pLinkList->pFirstNode;
+	pLinkList->pFirstNode=pFirstNode->pNext;
+	pLinkList->Length--;
+
+	return pFirstNode;
+}
+
 Node *DeleteNode(LinkList* pLinkList, int LocationIndex)
 {
 	CheckAddresses((unsigned long long int)pLinkList);
 	CheckLocationIndex(pLinkList,LocationIndex);
 
-	Node* pCurrentNode = pLinkList->pFirstNode;
-	int Count = 1;
-	while (pFirstNode&&Count < LocationIndex - 1)
+	Node *pBackCarrier;
+
+	if(1 == LocationIndex)
 	{
-		pFirstNode = pFirstNode->pNext;
-		Count++;
+		return (DeleteFirstNode(pLinkList));
+	}
+	Node* pCurrentNode = pLinkList->pFirstNode;
+	int Counter = 1;
+	while ((pCurrentNode != NULL) && (Count < LocationIndex-1))
+	{
+		pCurrentNode = pCurrentNode->pNext;
+		Counter++;
 	}
 
-	Node* pTemporary = (Node*)malloc(sizeof(Node));
-	if (!pTemporary)
-		exit(OVERFLOW);
-	pTemporary = pFirstNode->pNext;
-	*pBackCarrier = pTemporary->Data;
-	pFirstNode->pNext = pTemporary->pNext;
+	CheckAddresses((unsigned long long int)pCurrentNode);
+
+	pBackCarrier = pCurrentNode->pNext;
+	pCurrentNode->pNext = pBackCarrier->pNext;
 	pLinkList->Length--;
-}
 
-	return OK;
-}
+	return pBackCarrier;
 
+}
+/*
 Status MergeLinkList(LinkList* pLinkList0, LinkList* pLinkList1, LinkList* pLinkList2)
 {
 

@@ -34,7 +34,8 @@ ElementType GetElement(LinkList*, int);       		//A function to return a data lo
 BOOL   JudgeEmpty(LinkList*);			        //A function to examine if the linklist is empty
                                                         //return it by the third parameter,and return OK,otherwise return ERROR
 
-Node *DeleteNode(LinkList*, int);   		//A function to delete the data located at a specified location indicated by the second argument and return the deleted data value,and return the deleted node
+Node *DeleteFirstNode(LinkList*);			//A function to delete the first Node.[!!!]Pay attention that it returns the deleted node so you must free its memory at some place afterwards,otherwise it will cause memory leak!!!
+Node *DeleteNode(LinkList*, int);   			//A function to delete the data located at a specified location indicated by the second argument and return the deleted data value,and return the deleted node
                                                        //and return it by the third parameter
 Status MergeLinkList(LinkList*, LinkList*, LinkList*); //Merge the first linklist and the second linklist to the third linklist
 
