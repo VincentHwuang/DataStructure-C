@@ -24,16 +24,56 @@ LinkList* CreateLinkList(void)
 	return pLinkList;
 }
 
+Node *CreateNode(ElementType Data)
+{
+	Node *pNewNode;
+	pNewNode=(Node*)ECMalloc(sizeof(Node));
+
+	pNewNode->Data=Data;
+	pNewNode->pNext=NULL;
+
+	return pNewNode;
+}
+
 Status NodeInsertBeforeFirst(LinkList* pLinkList,ElementType DataInserted)
 {
 	Node* pFirstNode = pLinkList->pFirstNode;
 	CheckAddresses((unsigned long long int)pLinkList);
-	Node* pTemporary = (Node*)ECMalloc(sizeof(Node));
-
-	pTemporary->Data = DataInserted;
+	Node* pTemporary = CreateNode(DataInserted);
 	pTemporary->pNext = pFirstNode;
 	pLinkList->pFirstNode = pTemporary;
 	(pLinkList->Length)++;
+
+	return OK;
+}
+
+Status InsertDatas(LinkList *pLinkList,ElementType Datas[],int Number)
+{
+	CheckAddresses((unsigned long long int)pLinkList);
+
+	int Counter;
+	Node *pNewNode;
+	Node *pLastNode;
+
+	if(JudgeEmpty(pLinkList) == TRUE)
+	{
+		if(NodeInsertBeforeFirst(pLinkList,Datas[0]) == OK)
+		{
+			;
+		}
+		else
+		{
+			printf("Failed to insert data before the first node!\n");
+		}
+	}
+
+	pLastNode=GetNode(pLinkList,pLinkList->Length);
+	for(Counter=0;Counter<(Number-1);Counter++)
+	{
+		pNewNode=CreateNode(Datas[Counter]);
+		pLastNode->pNext=pNewNode;
+		pLinkList->Length++;
+	}
 
 	return OK;
 }
@@ -151,31 +191,56 @@ Node *DeleteNode(LinkList* pLinkList, int LocationIndex)
 	CheckLocationIndex(pLinkList,LocationIndex);
 
 	Node *pBackCarrier;
+	Node *pLastNode;
 
 	if(1 == LocationIndex)
 	{
 		return (DeleteFirstNode(pLinkList));
 	}
-	Node* pCurrentNode = pLinkList->pFirstNode;
-	int Counter = 1;
-	while ((pCurrentNode != NULL) && (Count < LocationIndex-1))
+	else
 	{
-		pCurrentNode = pCurrentNode->pNext;
-		Counter++;
+		pLastNode=GetNode(pLinkList,LocationIndex-1);
+		pBackCarrier=pLastNode->pNext;
+		pLastNode->pNext=pBackCarrier->pNext;
+		pLinkList->Length--;
+
+		return pBackCarrier;
+	}
+}
+
+Status DestoryLinkList(LinkList *pLinkList)
+{
+	CheckAddresses((unsigned long long int)pLinkList);
+
+	int Counter=0;
+	int LinkListLength=pLinkList->Length;
+	Node *pCurrentNode=pLinkList->pFirstNode;
+	Node *pNext;
+
+	for(;Counter<LinkListLength;Counter++)
+	{
+		pNext=pCurrentNode->pNext;
+		free(pCurrentNode);
+		pCurrentNode=pNext;
 	}
 
-	CheckAddresses((unsigned long long int)pCurrentNode);
+	free(pLinkList);
+	pLinkList=NULL;
 
-	pBackCarrier = pCurrentNode->pNext;
-	pCurrentNode->pNext = pBackCarrier->pNext;
-	pLinkList->Length--;
-
-	return pBackCarrier;
-
+	return OK;
 }
-/*
-Status MergeLinkList(LinkList* pLinkList0, LinkList* pLinkList1, LinkList* pLinkList2)
+
+Status AppendLinkList(LinkList* pLinkList0, LinkList* pLinkList1)
 {
+	CheckAddresses((unsigned long long int)pLinkList0 | (unsigned long long int)pLinkList1);
+	Node *pLastNode;
+	int Length=pLinkList0->Length;
 
+	pLastNode=GetNode(pLinkList0,Length);
+	pLastNode->pNext=pLinkList1->pFirstNode;
+	free(pLinkList1);
+	pLinkList1=NULL;
+	
+	return OK;
 }
-*/
+

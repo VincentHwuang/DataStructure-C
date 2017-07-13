@@ -55,25 +55,71 @@ int main(void)
 //	Node1=GetNode(pLinkList,2);
 //	PrintNodeInfo(Node0);
 //	PrintNodeInfo(Node1);
-	//Test for function 'GetElement'
-	ElementType Data0;
-	ElementType Data1;
-	Data0=GetElement(pLinkList,1);
-	Data1=GetElement(pLinkList,3);
-	printf("Data0: %d\nData1: %d\n",Data0,Data1);
+//	//Test for function 'GetElement'
+//	ElementType Data0;
+//	ElementType Data1;
+//	Data0=GetElement(pLinkList,1);
+//	Data1=GetElement(pLinkList,3);
+//	printf("Data0: %d\nData1: %d\n",Data0,Data1);
 	//Test for function 'DeleteFirstNode'
-	Node *pNodeDeleted;
-	pNodeDeleted=DeleteFirstNode(pLinkList);
-	PrintNodeInfo(pNodeDeleted);
-	//[!!!]Pay attention that we must manully free memory of the deleted node
-	//otherwise it will cause memory leak!!!
-	free(pNodeDeleted);
-	pNodeDeleted=NULL;
-	pNodeDeleted=DeleteFirstNode(pLinkList);
-	PrintNodeInfo(pNodeDeleted);
-	free(pNodeDeleted);
-	pNodeDeleted=NULL;
-	PrintLinkListInfo(pLinkList);
+//	Node *pNodeDeleted;
+//	pNodeDeleted=DeleteFirstNode(pLinkList);
+//	PrintNodeInfo(pNodeDeleted);
+//	//[!!!]Pay attention that we must manully free memory of the deleted node
+//	//otherwise it will cause memory leak!!!
+//	free(pNodeDeleted);
+//	pNodeDeleted=NULL;
+//	pNodeDeleted=DeleteFirstNode(pLinkList);
+//	PrintNodeInfo(pNodeDeleted);
+//	free(pNodeDeleted);
+//	pNodeDeleted=NULL;
+	//Test for function 'DeleteNode'
+//	Node *pNodeDeleted;
+//	pNodeDeleted=DeleteNode(pLinkList,2);
+//	PrintNodeInfo(pNodeDeleted);
+//	PrintLinkListInfo(pLinkList);
+//
+//	//We must manully free memory of the deleted node otherwise it will cause memory leak!!!
+//	free(pNodeDeleted);
+//	pNodeDeleted=NULL;
+
+	//Test for function 'DestoryLinkList'
+//	if(DestoryLinkList(pLinkList) == OK)
+//	{
+//		printf("Succeed to destory link list!\n");
+//	}
+//	else
+//	{
+//		printf("Failed to destory link list!\n");
+//	}
+	//Test for function 'InsertDatas'
+	LinkList *pNewLinkList=CreateLinkList();
+	ElementType Datas[5]={12,34,45,23,54};
+	int Number=sizeof(Datas)/sizeof(Datas[0]);
+	if(InsertDatas(pNewLinkList,Datas,Number) == OK)
+	{
+		printf("Succeed insert datas!New link list info:\n");
+		PrintLinkListInfo(pNewLinkList);
+	}
+	else
+	{
+		printf("Failed to insert datas!\n");
+	}
+
+
+
+
+	//Test for function 'AppendLinkList'
+//	if((AppendLinkList(pLinkList,pNewLinkList)) == OK)
+//	{
+//		;
+//	}
+//	else
+//	{
+//		printf("Failed to append link list!\n");
+//	}
+//	PrintLinkListInfo(pLinkList);
+	
 	
 
 	return 0;	
