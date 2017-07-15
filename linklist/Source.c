@@ -2,6 +2,7 @@
 
 void PrintLinkListInfo(LinkList*);
 void PrintNodeInfo(Node*);
+Status HandlerFunc(Node*);
 
 int main(void)
 {
@@ -94,7 +95,7 @@ int main(void)
 //	}
 	//Test for function 'InsertDatas'
 	LinkList *pNewLinkList=CreateLinkList();
-	ElementType Datas[5]={12,34,45,23,54};
+	ElementType Datas[8]={12,234,21,53,34,45,23,54};
 	int Number=sizeof(Datas)/sizeof(Datas[0]);
 	if(InsertDatas(pNewLinkList,Datas,Number) == OK)
 	{
@@ -106,24 +107,27 @@ int main(void)
 		printf("Failed to insert datas!\n");
 	}
 
-
-
-
 	//Test for function 'AppendLinkList'
-//	if((AppendLinkList(pLinkList,pNewLinkList)) == OK)
-//	{
-//		;
-//	}
-//	else
-//	{
-//		printf("Failed to append link list!\n");
-//	}
-//	PrintLinkListInfo(pLinkList);
-	
-	
+	if((AppendLinkList(pLinkList,pNewLinkList)) == OK)
+	{
+		;
+	}
+	else
+	{
+		printf("Failed to append link list!\n");
+	}
+	PrintLinkListInfo(pLinkList);
 
+	//Test for function 'TraverseLinkList()'
+	Status (*Handler)(Node*)=HandlerFunc;
+	if(TraverseLinkList(pLinkList,Handler) != OK)
+	{
+		printf("Failed to traverse the link list,some errors happen!\n");
+		exit(1);
+	}
+	PrintLinkListInfo(pLinkList);
+	
 	return 0;	
-
 }
 
 void PrintLinkListInfo(LinkList* pLinkList)
@@ -145,4 +149,11 @@ void PrintNodeInfo(Node *pNode)
 	printf("[DEBUG NODE INFO]: address: 0x%016x\nThe data of it: %d\npNext address: 0x%016x\n",pNode,pNode->Data,pNode->pNext);
 
 	return;
+}
+
+Status HandlerFunc(Node *pNode)
+{
+	pNode->Data += 1;
+
+	return OK;
 }

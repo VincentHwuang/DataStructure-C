@@ -41,6 +41,7 @@ Node *DeleteNode(LinkList*, int);   			//A function to delete the data located a
                                                        //and return it by the third parameter
 Status DestoryLinkList(LinkList*);				//A function to destory the linklist 
 Status AppendLinkList(LinkList*, LinkList*); //A function to append another link list(specified by the second argument) to current link list(specified by the first argument).
+Status TraverseLinkList(LinkList*,Status (*)(Node*));	//A function to traverse the link list,access or modify each data in the link list with the function specified by the second argument.
 
 
 

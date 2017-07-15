@@ -57,21 +57,18 @@ Status InsertDatas(LinkList *pLinkList,ElementType Datas[],int Number)
 
 	if(JudgeEmpty(pLinkList) == TRUE)
 	{
-		if(NodeInsertBeforeFirst(pLinkList,Datas[0]) == OK)
+		if(NodeInsertBeforeFirst(pLinkList,Datas[0]) != OK)
 		{
-			;
-		}
-		else
-		{
-			printf("Failed to insert data before the first node!\n");
+			Fatal("in InsertDatas() function while inserting data before the first node!\n");
 		}
 	}
 
 	pLastNode=GetNode(pLinkList,pLinkList->Length);
-	for(Counter=0;Counter<(Number-1);Counter++)
+	for(Counter=1;Counter<Number;Counter++)
 	{
 		pNewNode=CreateNode(Datas[Counter]);
 		pLastNode->pNext=pNewNode;
+		pLastNode=pNewNode;
 		pLinkList->Length++;
 	}
 
@@ -238,9 +235,34 @@ Status AppendLinkList(LinkList* pLinkList0, LinkList* pLinkList1)
 
 	pLastNode=GetNode(pLinkList0,Length);
 	pLastNode->pNext=pLinkList1->pFirstNode;
+	pLinkList0->Length += pLinkList1->Length;
 	free(pLinkList1);
 	pLinkList1=NULL;
 	
 	return OK;
 }
 
+Status TraverseLinkList(LinkList *pLinkList,Status (*Handler)(Node*))
+{
+	CheckAddresses((unsigned long long int)pLinkList | (unsigned long long int)Handler);
+
+	if(JudgeEmpty(pLinkList) == TRUE)
+	{
+		Fatal("in TraverseLinkList() function,the link list is empty!\n");
+	}
+
+	int Counter;
+	Node *pCurrentNode=pLinkList->pFirstNode;
+	int  Length=pLinkList->Length;
+
+	for(Counter=0;Counter<Length;Counter++)
+	{
+		if(Handler(pCurrentNode) != OK)
+		{
+			Fatal("in TraverseLinkList() function while handling the data!\n");
+		}
+		pCurrentNode=pCurrentNode->pNext;
+	}
+
+	return OK;
+}
