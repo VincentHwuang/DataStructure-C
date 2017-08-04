@@ -230,7 +230,7 @@ Status DestoryLinkList(LinkList *pLinkList)
 
 Status AppendLinkList(LinkList* pLinkList0, LinkList* pLinkList1)
 {
-	CheckAddresses((unsigned long long int)pLinkList0 | (unsigned long long int)pLinkList1);
+	CheckAddresses((unsigned long long int)pLinkList0 * (unsigned long long int)pLinkList1);
 	Node *pLastNode;
 	int Length=pLinkList0->Length;
 
@@ -245,7 +245,7 @@ Status AppendLinkList(LinkList* pLinkList0, LinkList* pLinkList1)
 
 Status TraverseLinkList(LinkList *pLinkList,Status (*Handler)(Node*))
 {
-	CheckAddresses((unsigned long long int)pLinkList | (unsigned long long int)Handler);
+	CheckAddresses((unsigned long long int)pLinkList * (unsigned long long int)Handler);
 
 	if(JudgeEmpty(pLinkList) == TRUE)
 	{

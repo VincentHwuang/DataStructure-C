@@ -13,9 +13,9 @@
 void Fatal(char *ErrorMessage);
 
 //This function is used to check the validation of several addresses,
-//you can typecase several addresses to 'unsigned long long int'
+//you can typecast several addresses to 'unsigned long long int'
 //type(for 64-bits --> 8 bytes) or 'unsigned int' type(for 32-bits 4 bytes)
-//then do bitwise operator '|' to the addresses,and then give the result  
+//then multiply them,give the result  
 //to this function as its argument.
 BOOL CheckAddresses(unsigned long long int ValueChecked);
 
