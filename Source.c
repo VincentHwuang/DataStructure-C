@@ -20,16 +20,16 @@ int main(void)
 	NodeInsertBefore(pLinkList,2,6);
 	PrintLinkListInfo(pLinkList);
 	//Test for function 'JudgeEmpty'
-	//BOOL flag;
-	//flag=JudgeEmpty(pLinkList);
-	//if(flag == TRUE)
-	//{
-	//	printf("The linklist is empty.\n");
-	//}
-	//else
-	//{
-	//	printf("The linklist is not empty.\n");
-	//}
+	BOOL flag;
+	flag=JudgeEmpty(pLinkList);
+	if(flag == TRUE)
+	{
+		printf("The linklist is empty.\n");
+	}
+	else
+	{
+		printf("The linklist is not empty.\n");
+	}
 	//Test for function 'ClearLinkList'
 	//if(ClearLinkList(pLinkList) == OK)
 	//{
@@ -94,38 +94,38 @@ int main(void)
 //		printf("Failed to destory link list!\n");
 //	}
 	//Test for function 'InsertDatas'
-	LinkList *pNewLinkList=CreateLinkList();
-	ElementType Datas[8]={12,234,21,53,34,45,23,54};
-	int Number=sizeof(Datas)/sizeof(Datas[0]);
-	if(InsertDatas(pNewLinkList,Datas,Number) == OK)
-	{
-		printf("Succeed insert datas!New link list info:\n");
-		PrintLinkListInfo(pNewLinkList);
-	}
-	else
-	{
-		printf("Failed to insert datas!\n");
-	}
-
-	//Test for function 'AppendLinkList'
-	if((AppendLinkList(pLinkList,pNewLinkList)) == OK)
-	{
-		;
-	}
-	else
-	{
-		printf("Failed to append link list!\n");
-	}
-	PrintLinkListInfo(pLinkList);
-
-	//Test for function 'TraverseLinkList()'
-	Status (*Handler)(Node*)=HandlerFunc;
-	if(TraverseLinkList(pLinkList,Handler) != OK)
-	{
-		printf("Failed to traverse the link list,some errors happen!\n");
-		exit(1);
-	}
-	PrintLinkListInfo(pLinkList);
+//	LinkList *pNewLinkList=CreateLinkList();
+//	ElementType Datas[8]={12,234,21,53,34,45,23,54};
+//	int Number=sizeof(Datas)/sizeof(Datas[0]);
+//	if(InsertDatas(pNewLinkList,Datas,Number) == OK)
+//	{
+//		printf("Succeed insert datas!New link list info:\n");
+//		PrintLinkListInfo(pNewLinkList);
+//	}
+//	else
+//	{
+//		printf("Failed to insert datas!\n");
+//	}
+//
+//	//Test for function 'AppendLinkList'
+//	if((AppendLinkList(pLinkList,pNewLinkList)) == OK)
+//	{
+//		;
+//	}
+//	else
+//	{
+//		printf("Failed to append link list!\n");
+//	}
+//	PrintLinkListInfo(pLinkList);
+//
+//	//Test for function 'TraverseLinkList()'
+//	Status (*Handler)(Node*)=HandlerFunc;
+//	if(TraverseLinkList(pLinkList,Handler) != OK)
+//	{
+//		printf("Failed to traverse the link list,some errors happen!\n");
+//		exit(1);
+//	}
+//	PrintLinkListInfo(pLinkList);
 	
 	return 0;	
 }

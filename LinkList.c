@@ -1,6 +1,6 @@
 #include"linklist.h"
 
-Status CheckLocationIndex(LinkList* pLinkList,int Index)
+Status CheckLocationIndex(const LinkList* pLinkList,int Index)
 {
 	if(Index <= 0 || (Index > pLinkList->Length))
 	{
@@ -105,7 +105,7 @@ Status NodeInsertBefore(LinkList* pLinkList, int LocationIndex, ElementType Data
 	return OK;
 }
 
-BOOL JudgeEmpty(LinkList *pLinkList)
+BOOL JudgeEmpty(const LinkList *pLinkList)
 {
 	if(pLinkList->Length == 0)
 	{
@@ -115,6 +115,7 @@ BOOL JudgeEmpty(LinkList *pLinkList)
 	{
 		return FALSE;
 	}
+	return (pLinkList->Length == 0 ? TRUE:FALSE);
 }
 
 Status ClearLinkList(LinkList* pLinkList)
@@ -145,7 +146,7 @@ Status ClearLinkList(LinkList* pLinkList)
 	return OK;
 }
 
-Node *GetNode(LinkList *pLinkList, int LocationIndex)
+Node *GetNode(const LinkList *pLinkList, int LocationIndex)
 {
 	CheckAddresses((unsigned long long int)pLinkList);
 	CheckLocationIndex(pLinkList,LocationIndex);
@@ -161,7 +162,7 @@ Node *GetNode(LinkList *pLinkList, int LocationIndex)
 	return pNode;
 }
 
-ElementType GetElement(LinkList* pLinkList, int LocationIndex)
+ElementType GetElement(const LinkList* pLinkList, int LocationIndex)
 {
 	Node *pNode;
 	pNode=GetNode(pLinkList,LocationIndex);
