@@ -96,21 +96,57 @@ int main(int argc,char **argv)
 //		printf("Failed to pop single node.\n");
 //	}
 	//Test for function 'PopNodes()'
-	number=pQueue0->Length;
-	struct QueueNode **pNodes=PopNodes(pQueue0,number);
-	if(pNodes != NULL)
+//	number=pQueue0->Length;
+//	struct QueueNode **pNodes=PopNodes(pQueue0,number);
+//	if(pNodes != NULL)
+//	{
+//		printf("Succeed to pop several nodes.\n");
+//		for(i=0;i<number;i++)
+//		{
+//			PrintQueueNodeInfo(pNodes[i]);
+//		}
+//		PrintQueueInfo(pQueue0);
+//	}
+//	else
+//	{
+//		printf("Failed to pop several nodes.\n");
+//	}
+	//Test for function 'GetQueueLength()'
+//	int Length;
+//	Length=GetQueueLength(pQueue0);
+//	printf("The length of the link queue is:%d\n",Length);
+//	//Test for function 'GetSingleData()'
+//	ElementType Data;
+//	Data=GetSingleData(pQueue0);
+//	printf("Data returned is:%d\n",Data);
+//	//Test for function 'GetDatas()'
+//	ElementType *pDatas;
+//	Length=pQueue0->Length;
+//	
+//	pDatas=GetDatas(pQueue0,Length);
+//	if(pDatas != NULL)
+//	{
+//		printf("Succeed to get several datas, they are:\n");
+//		for(i=0;i<Length;i++)
+//		{
+//			printf("%d\n",pDatas[i]);
+//		}
+//	}
+//	else
+//	{
+//		printf("Failed to get several datas.\n");
+//	}
+	//Test for function 'DestoryQueue()'
+	if(DestoryQueue(&pQueue0) == TRUE)
 	{
-		printf("Succeed to pop several nodes.\n");
-		for(i=0;i<number;i++)
-		{
-			PrintQueueNodeInfo(pNodes[i]);
-		}
-		PrintQueueInfo(pQueue0);
+		printf("Succeed to destory the link queue.\n");
 	}
 	else
 	{
-		printf("Failed to pop several nodes.\n");
+		printf("Failed to destory the link queue.\n");
 	}
+
+
 
 	
 

@@ -20,23 +20,71 @@ struct QueueNode *CreateQueueNode(ElementType Data)
 	return pNewNode;
 }
 
-/*Status DestoryQueue(struct QueueType& Queue)
+Status FreeSingleNode(struct QueueNode **pNode)
 {
-	QueueNodeType* pTemporary0= Queue.pFront;
-	QueueNodeType* pTemporary1 = Queue.pFront->pNext;
-	while (pTemporary0 !=Queue.pRear)
-	{
-		free(pTemporary0);
-		pTemporary0 = NULL;
-		pTemporary0 = pTemporary1;
-		pTemporary1 = pTemporary1->pNext;
-	}
-	free(pTemporary0);
-	pTemporary0 = NULL;
+	free(*pNode);
+	*pNode=NULL;
 
 	return OK;
 }
 
+Status FreeNodes(struct QueueNode **pNodes,int number)
+{
+	CheckAddresses((unsigned long long int)pNodes);
+
+	int i;
+	for(i=0;i<number;i++)
+	{
+		FreeSingleNode(&pNodes[i]);
+	}
+
+	return OK;
+}
+
+Status DestoryQueue(struct LinkQueue **pQueue)
+{
+	CheckAddresses((unsigned long long int)*pQueue);
+
+	if(JudgeEmpty(*pQueue) == TRUE)
+	{
+		free(*pQueue);
+		*pQueue=NULL;
+
+		return OK;
+	}
+
+	int i;
+	int Length=GetQueueLength(*pQueue);
+	struct QueueNode *pCurrentNode=(*pQueue)->pFirst;
+
+	if(Length == 1)
+	{
+		FreeSingleNode(&pCurrentNode);
+		free(*pQueue);
+		*pQueue=NULL;
+
+		return OK;
+	}
+
+	struct QueueNode *pNextNode=pCurrentNode->pNext;
+	for(i=0;i<Length;i++)
+	{
+		FreeSingleNode(&pCurrentNode);
+		pCurrentNode=pNextNode;
+		if(pCurrentNode == NULL)
+		{
+			break;
+		}
+		pNextNode=pNextNode->pNext;
+	}
+
+	free(*pQueue);
+	*pQueue=NULL;
+
+	return OK;
+}
+
+/*
 Status ClearQueue(struct QueueType& Queue)
 {
 	QueueNodeType* pTemporary0 = Queue.pFront->pNext;
@@ -63,32 +111,14 @@ BOOL JudgeEmpty(const struct LinkQueue *pQueue)
 //	return ((pQueue->pFirst == NULL) && (pQueue->pLast == NULL));
 	return (pQueue->Length == 0);
 }
-/*
-int GetQueueLength(const struct QueueType& Queue)
-{
-	QueueNodeType* pTemporary = Queue.pFront->pNext;
-	int Length = (Queue.pFront == Queue.pRear) ? 0 : 1;
-	if (Length == 0)
-		return 0;
-	pTemporary = pTemporary->pNext;
-	while (pTemporary != NULL)
-	{
-		Length++;
-		pTemporary = pTemporary->pNext;
-	}
 
-	return Length;
+int GetQueueLength(const struct LinkQueue *pQueue)
+{
+	CheckAddresses((unsigned long long int)pQueue);
+
+	return pQueue->Length;
 }
 
-Status GetFirstData(const struct QueueType& Queue, ElementType& BackCarrier)
-{
-	if (Queue.pRear == Queue.pFront)
-		return ERROR;
-	BackCarrier = Queue.pFront->pNext->Data;
-
-	return OK;
-}
-*/
 Status PushSingleData(struct LinkQueue *pQueue, ElementType DataPushed)
 {
 	CheckAddresses((unsigned long long int)pQueue);
@@ -182,6 +212,13 @@ struct QueueNode *PopSingleNode(struct LinkQueue *pQueue)
 
 }
 
+ElementType GetSingleData(const struct LinkQueue *pQueue)
+{
+	CheckAddresses((unsigned long long int)pQueue);
+
+	return (pQueue->pFirst->Data);
+}
+
 struct QueueNode **PopNodes(struct LinkQueue *pQueue,int number)
 {
 	CheckAddresses((unsigned long long int)pQueue);
@@ -200,6 +237,28 @@ struct QueueNode **PopNodes(struct LinkQueue *pQueue,int number)
 	}
 
 	return pNodes;
+}
+
+ElementType *GetDatas(const struct LinkQueue *pQueue,int number)
+{
+	CheckAddresses((unsigned long long int)pQueue);
+	if(number > (pQueue->Length))
+	{
+		printf("Sorry,there are not enough datas!\n");
+		return NULL;
+	}
+
+	ElementType *pDatas=(ElementType*)ECMalloc(sizeof(ElementType)*number);
+	struct QueueNode *pCurrentNode=pQueue->pFirst;
+	int i;
+
+	for(i=0;i<number;i++)
+	{
+		pDatas[i]=pCurrentNode->Data;
+		pCurrentNode=pCurrentNode->pNext;
+	}
+
+	return pDatas;
 }
 /*
 Status QueueTravel(const struct QueueType& Queue, Status(*Visit)(QueueNodeType&))
