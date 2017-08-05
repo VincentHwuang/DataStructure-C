@@ -243,9 +243,9 @@ Status AppendLinkList(LinkList* pLinkList0, LinkList* pLinkList1)
 	return OK;
 }
 
-Status TraverseLinkList(LinkList *pLinkList,Status (*Handler)(Node*))
+Status TraverseLinkList(LinkList *pLinkList,Status (*pHandler)(Node*))
 {
-	CheckAddresses((unsigned long long int)pLinkList * (unsigned long long int)Handler);
+	CheckAddresses((unsigned long long int)pLinkList * (unsigned long long int)pHandler);
 
 	if(JudgeEmpty(pLinkList) == TRUE)
 	{
@@ -258,7 +258,7 @@ Status TraverseLinkList(LinkList *pLinkList,Status (*Handler)(Node*))
 
 	for(Counter=0;Counter<Length;Counter++)
 	{
-		if(Handler(pCurrentNode) != OK)
+		if(pHandler(pCurrentNode) != OK)
 		{
 			Fatal("in TraverseLinkList() function while handling the data!\n");
 		}

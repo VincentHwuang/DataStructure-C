@@ -1,5 +1,14 @@
 #include"linkqueue.h"
 
+void CheckNumber(const struct LinkQueue *pQueue,int number)
+{
+	if(number > pQueue->Length)
+	{
+		printf("Sorry,there are not enough items!\n");
+		exit(-1);
+	}
+}
+
 struct LinkQueue *CreateLinkQueue(void)
 {
 	struct LinkQueue *NewQueue;
@@ -52,58 +61,44 @@ Status DestoryQueue(struct LinkQueue **pQueue)
 
 		return OK;
 	}
-
-	int i;
-	int Length=GetQueueLength(*pQueue);
-	struct QueueNode *pCurrentNode=(*pQueue)->pFirst;
-
-	if(Length == 1)
+	else
 	{
-		FreeSingleNode(&pCurrentNode);
+		while((*pQueue)->pFirst != NULL)
+		{
+			(*pQueue)->pLast=(*pQueue)->pFirst->pNext;
+			FreeSingleNode(&((*pQueue)->pFirst));
+			(*pQueue)->pFirst=(*pQueue)->pLast;
+		}
+
 		free(*pQueue);
 		*pQueue=NULL;
 
 		return OK;
 	}
-
-	struct QueueNode *pNextNode=pCurrentNode->pNext;
-	for(i=0;i<Length;i++)
-	{
-		FreeSingleNode(&pCurrentNode);
-		pCurrentNode=pNextNode;
-		if(pCurrentNode == NULL)
-		{
-			break;
-		}
-		pNextNode=pNextNode->pNext;
-	}
-
-	free(*pQueue);
-	*pQueue=NULL;
-
-	return OK;
 }
 
-/*
-Status ClearQueue(struct QueueType& Queue)
+Status ClearQueue(struct LinkQueue *pQueue)
 {
-	QueueNodeType* pTemporary0 = Queue.pFront->pNext;
-	QueueNodeType* pTemporary1 = pTemporary0->pNext;
-	while (pTemporary0 !=Queue.pRear)
-	{
-		free(pTemporary0);
-		pTemporary0 = NULL;
-		pTemporary0 = pTemporary1;
-		pTemporary1 = pTemporary1->pNext;
-	}
-	free(pTemporary0);
-	pTemporary0 = NULL;
-	Queue.pFront->pNext = NULL;
-	Queue.pRear = Queue.pFront;
+	CheckAddresses((unsigned long long int)pQueue);
 
-	return OK;
+	if(JudgeEmpty(pQueue) == TRUE)
+	{
+		return OK;
+	}
+	else
+	{
+		while(pQueue->pFirst != NULL)
+		{
+			pQueue->pLast=pQueue->pFirst->pNext;
+			FreeSingleNode(&(pQueue->pFirst));
+			pQueue->Length--;
+			pQueue->pFirst=pQueue->pLast;
+		}
+
+		return OK;
+	}
 }
-*/
+
 BOOL JudgeEmpty(const struct LinkQueue *pQueue)
 {
 	CheckAddresses((unsigned long long int)pQueue);
@@ -223,11 +218,7 @@ struct QueueNode **PopNodes(struct LinkQueue *pQueue,int number)
 {
 	CheckAddresses((unsigned long long int)pQueue);
 
-	if(pQueue->Length < number)
-	{
-		printf("Sorry,there are not enough nodes to pop!\n");
-		return NULL;
-	}
+	CheckNumber(pQueue,number);
 
 	struct QueueNode **pNodes=(struct QueueNode**)ECMalloc(sizeof(struct QueueNode*) * number);
 	int i;
@@ -242,11 +233,8 @@ struct QueueNode **PopNodes(struct LinkQueue *pQueue,int number)
 ElementType *GetDatas(const struct LinkQueue *pQueue,int number)
 {
 	CheckAddresses((unsigned long long int)pQueue);
-	if(number > (pQueue->Length))
-	{
-		printf("Sorry,there are not enough datas!\n");
-		return NULL;
-	}
+
+	CheckNumber(pQueue,number);
 
 	ElementType *pDatas=(ElementType*)ECMalloc(sizeof(ElementType)*number);
 	struct QueueNode *pCurrentNode=pQueue->pFirst;
@@ -260,19 +248,46 @@ ElementType *GetDatas(const struct LinkQueue *pQueue,int number)
 
 	return pDatas;
 }
-/*
-Status QueueTravel(const struct QueueType& Queue, Status(*Visit)(QueueNodeType&))
+
+struct QueueNode **GetNodes(const struct LinkQueue *pQueue,int number)
 {
-	QueueNodeType* pTemporary = Queue.pFront->pNext;
-	while (Visit(*pTemporary) > 0)
+	CheckAddresses((unsigned long long int)pQueue);
+
+	CheckNumber(pQueue,number);
+
+	struct QueueNode **pNodes=(struct QueueNode**)ECMalloc(sizeof(struct QueueNode *)*number);
+	int i;
+	struct QueueNode *pCurrentNode=pQueue->pFirst;
+	for(i=0;i<number;i++)
 	{
-		pTemporary = pTemporary->pNext;
-		if (pTemporary == NULL)
-			break;
+		pNodes[i]=pCurrentNode;
+		pCurrentNode=pCurrentNode->pNext;
 	}
-	if (pTemporary == NULL)
-		return OK;
-	else
-		return ERROR;
+
+	return pNodes;
 }
-*/
+
+Status QueueTraverse(const struct LinkQueue *pQueue, Status(*pHandler)(struct QueueNode *))
+{
+	CheckAddresses((unsigned long long int)pQueue * (unsigned long long int)pHandler);
+
+	if(JudgeEmpty(pQueue) == TRUE)
+	{
+		printf("Sorry,the link queue is empty!\n");
+		return OK;
+	}
+
+	int i;
+	struct QueueNode **pNodes=GetNodes(pQueue,pQueue->Length);
+	for(i=0;i<(pQueue->Length);i++)
+	{
+		if(pHandler(pNodes[i]) != OK)
+		{
+			printf("Something error happened in function 'QueueTraverse'!\n");
+			return ERROR;
+		}
+	}
+
+	return OK;
+}
+

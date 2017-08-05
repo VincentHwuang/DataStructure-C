@@ -2,6 +2,9 @@
 
 void PrintQueueInfo(struct LinkQueue *);
 void PrintQueueNodeInfo(struct QueueNode *);
+void PrintStatusMessage(Status,char *);
+void PrintBOOLMessage(BOOL,char *);
+Status Handler(struct QueueNode *);
 
 int main(int argc,char **argv)
 {
@@ -45,26 +48,12 @@ int main(int argc,char **argv)
 	//Test for function 'PushDatas()'
 //	int Datas[5]={1,2,3,4,5};
 //	int number=sizeof(Datas)/sizeof(Datas[0]);
-//	if(PushDatas(pQueue0,Datas,number) == OK)
-//	{
-//		printf("Succeed to push %d datas.\n",number);
-//		PrintQueueInfo(pQueue0);
-//	}
-//	else
-//	{
-//		printf("Failed to push %d datas.\n",number);
-//	}
+//	PrintStatusMessage(PushDatas(pQueue0,Datas,number),"push several datas.");
+//	PrintQueueInfo(pQueue0);
 	//Test for function 'PushSingleNode()'
 //	struct QueueNode *pNewNode=CreateQueueNode(15);
-//	if(PushSingleNode(pQueue0,pNewNode) == OK)
-//	{
-//		printf("Succeed to push a node.\n");
-//		PrintQueueInfo(pQueue0);
-//	}
-//	else
-//	{
-//		printf("Failed to push a node.\n");
-//	}
+//	PrintStatusMessage(PushSingleNode(pQueue0,pNewNode),"push a node.");
+//	PrintQueueInfo(pQueue0);
 	//Test for function 'PushNodes()'
 	struct QueueNode* Nodes[5];
 	int i;
@@ -74,15 +63,8 @@ int main(int argc,char **argv)
 		Nodes[i]=CreateQueueNode(i);
 	}
 	number=sizeof(Nodes)/sizeof(Nodes[0]);
-	if(PushNodes(pQueue0,Nodes,number) == OK)
-	{
-		printf("Succeed to push several nodes.\n");
-		PrintQueueInfo(pQueue0);
-	}
-	else
-	{
-		printf("Failed to push several nodes.\n");
-	}
+	PrintStatusMessage(PushNodes(pQueue0,Nodes,number),"push several nodes.");
+	PrintQueueInfo(pQueue0);
 	//Test for function 'PopSingleNode()'
 //	struct QueueNode *pNode=PopSingleNode(pQueue0);
 //	if(pNode != NULL)
@@ -137,19 +119,14 @@ int main(int argc,char **argv)
 //		printf("Failed to get several datas.\n");
 //	}
 	//Test for function 'DestoryQueue()'
-	if(DestoryQueue(&pQueue0) == TRUE)
-	{
-		printf("Succeed to destory the link queue.\n");
-	}
-	else
-	{
-		printf("Failed to destory the link queue.\n");
-	}
-
-
-
-	
-
+//	PrintBOOLMessage(DestoryQueue(&pQueue0),"destory the link queue");
+	//Test for function 'ClearQueue()'
+//	PrintStatusMessage(ClearQueue(pQueue0),"clear the queue");
+//	PrintQueueInfo(pQueue0);
+	//Test for function 'QueueTraverse()'
+	Status (*pHandler)(struct QueueNode *)=Handler;
+	PrintStatusMessage(QueueTraverse(pQueue0,pHandler),"traverse the link queue.");
+	PrintQueueInfo(pQueue0);
 
 	return 0;
 }
@@ -178,4 +155,40 @@ void PrintQueueNodeInfo(struct QueueNode *pNode)
 
 	return;
 }
+
+void PrintStatusMessage(Status Flag,char *Handler)
+{
+	if(Flag == OK)
+	{
+		printf("Succeed to %s\n",Handler);
+	}
+	else
+	{
+		printf("Failed to %s\n",Handler);
+	}
+
+	return;
+}
+
+void PrintBOOLMessage(BOOL Flag,char *Handler)
+{
+	if(Flag == TRUE)
+	{
+		printf("Succeed to %s\n",Handler);
+	}
+	else
+	{
+		printf("Failed to %s\n",Handler);
+	}
+
+	return;
+}
+
+Status Handler(struct QueueNode *pNode)
+{
+	pNode->Data *= 7;
+
+	return OK;
+}
+
 
