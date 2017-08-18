@@ -89,7 +89,7 @@ Status NodeInsertBefore(LinkList* pLinkList, int LocationIndex, ElementType Data
 	}
 	else
 	{	
-		while(CheckAddresses((unsigned long long int)pCurrentNode) && Counter < LocationIndex - 1)
+		while(Counter < LocationIndex - 1)
 		{
 			pCurrentNode = pCurrentNode->pNext;
 			Counter++;
